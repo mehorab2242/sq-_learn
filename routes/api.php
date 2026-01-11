@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PatientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/patients/male', [PatientController::class, 'malePatients']);
+Route::get('/patients/no-allergies', [PatientController::class, 'noAllergies']);
+Route::get('/patients/first-name-c', [PatientController::class, 'firstNameStartsWithC']);
+Route::get('/patients/weight-range', [PatientController::class, 'weightRange']);
+Route::get('/patients/update-allergies', [PatientController::class, 'updateAllergies']);
+Route::get('/patients/full-name', [PatientController::class, 'fullName']);

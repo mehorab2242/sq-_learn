@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patients;
+use App\Models\Patient;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         // Get all patients
-        $patients = Patients::all();
+        $patients = Patient::all();
         dd($patients); // Dump all patients to browser
     }
 
-    public function femalePatients()
+    public function femalePatients(): JsonResponse
     {
         // Query example: Only female patients
-        $females = Patients::where('gender', 'F')->get();
+        $females = Patient::where('gender', 'F')->get();
         dd($females);
     }
 
-    public function patientFullName()
+    public function patientFullName(): JsonResponse
     {
         // Query example: Select full name
-        $patients = Patients::all()->map(function ($patient) {
+        $patients = Patient::all()->map(function ($patient) {
             return [
                 'patient_id' => $patient->patient_id,
                 'full_name' => $patient->full_name,
@@ -34,9 +35,9 @@ class PatientController extends Controller
         dd($patients);
     }
     // Show first name, last name, and gender of patients whose gender is 'M'
-    public function malePatients()
+    public function malePatients(): JsonResponse
     {
-        $patients = Patients::where('gender', 'M')
+        $patients = Patient::where('gender', 'M')
             ->select('first_name', 'last_name', 'gender')
             ->get();
 
@@ -44,9 +45,9 @@ class PatientController extends Controller
     }
 
     // Show first name and last name of patients who does not have allergies. (null)
-    public function noAllergies()
+    public function noAllergies(): JsonResponse
     {
-        $patients = Patients::whereNull('allergies')
+        $patients = Patient::whereNull('allergies')
             ->select('first_name', 'last_name')
             ->get();
 
@@ -54,9 +55,9 @@ class PatientController extends Controller
     }
 
     // Show first name of patients that start with the letter 'C'
-    public function firstNameStartsWithC()
+    public function firstNameStartsWithC(): JsonResponse
     {
-        $patients = Patients::where('first_name', 'like', 'C%')
+        $patients = Patient::where('first_name', 'like', 'C%')
             ->select('first_name')
             ->get();
 
@@ -64,9 +65,9 @@ class PatientController extends Controller
     }
 
     // Show first name and last name of patients that weight within the range of 100 to 120 (inclusive)
-    public function weightRange()
+    public function weightRange(): JsonResponse
     {
-        $patients = Patients::whereBetween('weight', [100, 120])
+        $patients = Patient::whereBetween('weight', [100, 120])
             ->select('first_name', 'last_name', 'weight')
             ->get();
 
@@ -74,25 +75,24 @@ class PatientController extends Controller
     }
 
     // Update the patients table for the allergies column. If the patient's allergies is null then replace it with 'NKA'
-    public function updateAllergies()
+    public function updateAllergies(): JsonResponse
     {
-        Patients::whereNull('allergies')->update(['allergies' => 'NKA']);
+        Patient::whereNull('allergies')->update(['allergies' => 'NKA']);
 
-        $patients = Patients::all();
+        $patients = Patient::all();
         return response()->json($patients);
     }
 
     // Show first name and last name concatinated into one column to show their full name.
-    public function fullName()
+    public function fullName(): JsonResponse
     {
-        $patients = Patients::all()->map(function ($patient) {
+        $patients = Patient::all()->map(function ($patient) {
             return [
                 'full_name' => $patient->first_name . ' ' . $patient->last_name,
                 'gender' => $patient->gender,
                 'weight' => $patient->weight,
             ];
         });
-
         return response()->json($patients);
     }
 }

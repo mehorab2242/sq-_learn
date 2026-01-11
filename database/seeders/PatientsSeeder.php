@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Patients;
+use App\Models\Patient;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
@@ -297,6 +297,6 @@ class PatientsSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]
         ];
-        Patients::insert($patients);
+        Patient::insert($patients);
     }
 }
