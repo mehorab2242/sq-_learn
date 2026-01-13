@@ -8,6 +8,8 @@ class Admission extends Model
 {
     protected $table = 'admissions';
 
+    public $timestamps = false;
+
     // Composite primary key workaround
     protected $primaryKey = null;
     public $incrementing = false;

@@ -12,22 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('admissions', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->unsignedBigInteger('patient_id');
             $table->date('admission_date');
             $table->date('discharge_date')->nullable();
-            $table->string('diagnosis', 50)->nullable();
+            $table->string('diagnosis', 50);
             $table->unsignedBigInteger('attending_doctor_id');
-            $table->timestamps();
 
             $table->primary(['patient_id', 'admission_date']);
+            $table->index('attending_doctor_id');
 
             $table->foreign('patient_id')
                 ->references('patient_id')
                 ->on('patients');
-
-            $table->foreign('attending_doctor_id')
-                ->references('doctor_id')
-                ->on('doctors');
         });
 
     }
@@ -37,6 +34,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('admissions', function (Blueprint $table) {
+            $table->dropForeign(['patient_id']);
+        });
+
         Schema::dropIfExists('admissions');
     }
 };

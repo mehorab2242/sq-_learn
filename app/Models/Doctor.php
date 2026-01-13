@@ -9,6 +9,8 @@ class Doctor extends Model
     protected $table = 'doctors';
     protected $primaryKey = 'doctor_id';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'first_name',
         'last_name',

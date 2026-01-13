@@ -12,9 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('province_names', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->char('province_id', 2)->primary();
             $table->string('province_name', 30);
-            $table->timestamps();
+        });
+
+        Schema::table('patients', function (Blueprint $table) {
+            $table->foreign('province_id')
+                ->references('province_id')
+                ->on('province_names');
         });
     }
 
@@ -23,6 +29,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('patients', function (Blueprint $table) {
+            $table->dropForeign(['province_id']);
+        });
+
         Schema::dropIfExists('province_names');
     }
 };

@@ -8,6 +8,8 @@ class ProvinceName extends Model
 {
     protected $table = 'province_names';
 
+    public $timestamps = false;
+
     protected $primaryKey = 'province_id';
     public $incrementing = false;
     protected $keyType = 'string';

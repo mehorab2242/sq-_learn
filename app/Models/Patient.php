@@ -9,6 +9,8 @@ class Patient extends Model
     protected $table = 'patients';
     protected $primaryKey = 'patient_id';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'first_name',
         'last_name',
