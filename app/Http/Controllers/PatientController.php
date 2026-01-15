@@ -125,4 +125,19 @@ class PatientController extends Controller
             'count' => $count,
         ]);
     }
+
+    // Show the first_name, last_name, and height of the patient with the greatest height.
+    public function tallestPatient(): JsonResponse
+    {
+        $patient = Patient::query()
+            ->select('first_name', 'last_name', 'height')
+            ->orderByDesc('height')
+            ->first();
+        return response()->json($patient);
+    }
+    public function specificID():JsonResponse
+    {
+        $patient = Patient::whereIn('patient_id', [1, 45, 534, 879, 1000])->get();
+        return response()->json($patient);
+    }
 }

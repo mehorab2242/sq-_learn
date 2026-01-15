@@ -23,3 +23,4 @@ Route::get('/patients/first-name-c', [PatientController::class, 'firstNameStarts
 Route::get('/patients/weight-range', [PatientController::class, 'weightRange']);
 Route::get('/patients/update-allergies', [PatientController::class, 'updateAllergies']);
 Route::get('/patients/full-name', [PatientController::class, 'fullName']);
+Route::get('/patients/tallest-patient', [PatientController::class, 'tallestPatient']);
