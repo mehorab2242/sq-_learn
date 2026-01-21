@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\PatientController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,3 +25,8 @@ Route::get('/patients/provinces', [PatientController::class, 'patientProvinceNam
 Route::get('/patients/born-in-2010', [PatientController::class, 'bornIn2010Count']);
 Route::get('/patients/tallest-patient', [PatientController::class, 'tallestPatient']);
 Route::get('/patients/specific-id', [PatientController::class, 'specificID']);
+
+Route::get('/admissions/totalAdmission', [AdmissionController::class, 'totalAdmission']);
+Route::get('/admissions/sameDateDischarge', [AdmissionController::class, 'sameDateDischarge']);
+Route::get('/admissions/specId', [AdmissionController::class, 'specId']);
+
