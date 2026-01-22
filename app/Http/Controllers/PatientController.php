@@ -34,6 +34,7 @@ class PatientController extends Controller
         });
         return response()->json($patients);
     }
+
     // Show first name, last name, and gender of patients whose gender is 'M'
     public function malePatients(): JsonResponse
     {
@@ -135,9 +136,31 @@ class PatientController extends Controller
             ->first();
         return response()->json($patient);
     }
-    public function specificID():JsonResponse
+
+    public function specificID(): JsonResponse
     {
         $patient = Patient::whereIn('patient_id', [1, 45, 534, 879, 1000])->get();
+        return response()->json($patient);
+    }
+
+    //Based on the cities that our patients live in, show unique cities that are in province_id 'BR'
+    public function specCity(): JsonResponse
+    {
+        $city = Patient::select('city')
+            ->where('province_id', 'BR')
+            ->distinct('city')
+            ->get();
+        return response()->json($city);
+    }
+
+    //Write a query to find the first_name, last name and birth date of patients who has height greater than 160 and weight greater than 70
+    public function heightWeight(): JsonResponse
+    {
+        $patient = Patient::query()
+            ->select('first_name', 'last_name', 'birth_date')
+            ->where('height', '>', 160)
+            ->where('weight', '>', 70)
+            ->get();
         return response()->json($patient);
     }
 }

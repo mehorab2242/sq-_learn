@@ -15,18 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/patients/male', [PatientController::class, 'malePatients']);
-Route::get('/patients/no-allergies', [PatientController::class, 'noAllergies']);
-Route::get('/patients/first-name-c', [PatientController::class, 'firstNameStartsWithC']);
-Route::get('/patients/weight-range', [PatientController::class, 'weightRange']);
-Route::get('/patients/update-allergies', [PatientController::class, 'updateAllergies']);
-Route::get('/patients/full-name', [PatientController::class, 'fullName']);
-Route::get('/patients/provinces', [PatientController::class, 'patientProvinceNames']);
-Route::get('/patients/born-in-2010', [PatientController::class, 'bornIn2010Count']);
-Route::get('/patients/tallest-patient', [PatientController::class, 'tallestPatient']);
-Route::get('/patients/specific-id', [PatientController::class, 'specificID']);
+Route::prefix('patients')->group(function () {
+    Route::get('/male', [PatientController::class, 'malePatients']);
+    Route::get('/no-allergies', [PatientController::class, 'noAllergies']);
+    Route::get('/first-name-c', [PatientController::class, 'firstNameStartsWithC']);
+    Route::get('/weight-range', [PatientController::class, 'weightRange']);
+    Route::get('/update-allergies', [PatientController::class, 'updateAllergies']);
+    Route::get('/full-name', [PatientController::class, 'fullName']);
+    Route::get('/provinces', [PatientController::class, 'patientProvinceNames']);
+    Route::get('/born-in-2010', [PatientController::class, 'bornIn2010Count']);
+    Route::get('/tallest-patient', [PatientController::class, 'tallestPatient']);
+    Route::get('/specific-id', [PatientController::class, 'specificID']);
+    Route::get('/spec-city', [PatientController::class, 'specCity']);
+    Route::get('/height-weight', [PatientController::class, 'heightWeight']);
+});
 
-Route::get('/admissions/totalAdmission', [AdmissionController::class, 'totalAdmission']);
-Route::get('/admissions/sameDateDischarge', [AdmissionController::class, 'sameDateDischarge']);
-Route::get('/admissions/specId', [AdmissionController::class, 'specId']);
+Route::prefix('admissions')->group(function () {
+    Route::get('/totalAdmission', [AdmissionController::class, 'totalAdmission']);
+    Route::get('/sameDateDischarge', [AdmissionController::class, 'sameDateDischarge']);
+    Route::get('/specId', [AdmissionController::class, 'specId']);
+});
 
