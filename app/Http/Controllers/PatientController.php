@@ -163,4 +163,66 @@ class PatientController extends Controller
             ->get();
         return response()->json($patient);
     }
+
+    // Show unique birth years from patients in ascending order
+    // SQL Query:
+    // SELECT DISTINCT YEAR(birth_date) as year
+    // FROM patients
+    // ORDER BY year ASC
+    public function uniqueBirthYears(): JsonResponse
+    {
+        $years = Patient::selectRaw('YEAR(birth_date) as year')
+            ->distinct()
+            ->orderBy('year', 'asc')
+            ->pluck('year');
+
+        return response()->json($years);
+    }
+
+    // Show unique first names that appear only once in the patients table
+    // SQL Query:
+    // SELECT first_name
+    // FROM patients
+    // GROUP BY first_name
+    // HAVING COUNT(first_name) = 1
+    public function uniqueFirstNames(): JsonResponse
+    {
+        $names = Patient::select('first_name')
+            ->groupBy('first_name')
+            ->havingRaw('COUNT(first_name) = 1')
+            ->orderBy('first_name')
+            ->pluck('first_name');
+
+        return response()->json($names);
+    }
+
+    // Show patient_id and first_name where first_name starts and ends with 's' and is at least 6 characters long
+    // SQL Query:
+    //SELECT patient_id, first_name
+    //FROM patients
+    //WHERE first_name LIKE 's%s'
+    //AND len(first_name) >= 6;
+    public function namesStartEndWithS(): JsonResponse
+    {
+        $patients = Patient::select('patient_id', 'first_name')
+            ->where('first_name', 'LIKE', 's%s')
+            ->whereRaw('LENGTH(first_name) >= 6')
+            ->get();
+
+        return response()->json($patients);
+    }
+
+    // Display every patient's first_name ordered by length of the name and then alphabetically
+    // SQL Query:
+    // SELECT first_name
+    // FROM patients
+    // ORDER BY LEN(first_name), first_name
+    public function orderedFirstNames(): JsonResponse
+    {
+        $patients = Patient::select('first_name')
+            ->orderByRaw('LENGTH(first_name), first_name')
+            ->pluck('first_name');
+            
+        return response()->json($patients);
+    }
 }

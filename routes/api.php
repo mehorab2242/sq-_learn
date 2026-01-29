@@ -28,6 +28,10 @@ Route::prefix('patients')->group(function () {
     Route::get('/specific-id', [PatientController::class, 'specificID']);
     Route::get('/spec-city', [PatientController::class, 'specCity']);
     Route::get('/height-weight', [PatientController::class, 'heightWeight']);
+    Route::get('/unique-birth-years', [PatientController::class, 'uniqueBirthYears']);
+    Route::get('/unique-first-names', [PatientController::class, 'uniqueFirstNames']);
+    Route::get('/names-start-end-with-s', [PatientController::class, 'namesStartEndWithS']);
+    Route::get('/patients-with-dementia', [PatientController::class, 'patientsWithDementia']);
 });
 
 Route::prefix('admissions')->group(function () {
