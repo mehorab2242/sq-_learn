@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
 use App\Models\Patient;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
@@ -222,7 +222,60 @@ class PatientController extends Controller
         $patients = Patient::select('first_name')
             ->orderByRaw('LENGTH(first_name), first_name')
             ->pluck('first_name');
-            
+
         return response()->json($patients);
+    }
+    //Show the total amount of male patients and the total amount of female patients in the patients table. Display the two results in the same row.
+    //SQL Query:
+    //SELECT
+    //(SELECT count(*) FROM patients WHERE gender='M') AS male_count,
+    //(SELECT count(*) FROM patients WHERE gender='F') AS female_count;
+    public function genderCount(): JsonResponse
+    {
+        $maleCount = Patient::where('gender', 'M')->count();
+        $femaleCount = Patient::where('gender', 'F')->count();
+
+        return response()->json([
+            'male_count' => $maleCount,
+            'female_count' => $femaleCount
+        ]);
+    }
+
+    // Show first name, last name and role of every person that is either patient or doctor
+    // The roles are either "Patient" or "Doctor"
+    // SQL Query for patients:
+    // SELECT first_name, last_name, 'Patient' as role FROM patients
+    // UNION ALL
+    // SELECT first_name, last_name, 'Doctor' as role FROM doctors
+    public function peopleWithRoles(): JsonResponse
+    {
+        // Get all patients with 'Patient' role
+        $patients = Patient::selectRaw("first_name, last_name, 'Patient' as role")->get();
+
+        // Get all doctors with 'Doctor' role
+        $doctors = Doctor::selectRaw("first_name, last_name, 'Doctor' as role")->get();
+
+        // Combine the collections
+        $people = $patients->concat($doctors);
+
+        return response()->json($people);
+    }
+
+    // Show the city and the total number of patients in the city
+    // Ordered from most to least patients and then by city name ascending
+    // SQL Query:
+//     SELECT city, COUNT(*) as patient_count
+//     FROM patients
+//     GROUP BY city
+//     ORDER BY patient_count DESC, city ASC
+    public function patientsByCity(): JsonResponse
+    {
+        $cityCounts = Patient::selectRaw('city, COUNT(*) as patient_count')
+            ->groupBy('city')
+            ->orderBy('patient_count', 'desc')
+            ->orderBy('city')
+            ->get();
+
+        return response()->json($cityCounts);
     }
 }

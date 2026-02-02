@@ -32,6 +32,9 @@ Route::prefix('patients')->group(function () {
     Route::get('/unique-first-names', [PatientController::class, 'uniqueFirstNames']);
     Route::get('/names-start-end-with-s', [PatientController::class, 'namesStartEndWithS']);
     Route::get('/patients-with-dementia', [PatientController::class, 'patientsWithDementia']);
+    Route::get('/gender-count', [PatientController::class, 'genderCount']);
+    Route::get('/people-with-roles', [PatientController::class, 'peopleWithRoles']);
+    Route::get('/patients-by-city', [PatientController::class, 'patientsByCity']);
 });
 
 Route::prefix('admissions')->group(function () {
